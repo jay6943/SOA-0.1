@@ -58,17 +58,20 @@ def conversion(fp):
 
     layer = device[0]
 
-    if cfg.layer[layer] > 0:
+    if layer in cfg.layer:
+      if cfg.layer[layer] > 0:
 
-      dx = cfg.area[cfg.layer[layer]][0] * cfg.mask
-      dy = cfg.area[cfg.layer[layer]][1] * cfg.mask
+        dx = cfg.area[cfg.layer[layer]][0] * cfg.mask
+        dy = cfg.area[cfg.layer[layer]][1] * cfg.mask
 
-      polyline(fp, layer)
-      
-      for [x, y] in device[1:]: vertex(fp, layer, x + dx, y + dy)                    
-          
-      seqend(fp, layer)
-  
+        polyline(fp, layer)
+        
+        for [x, y] in device[1:]: vertex(fp, layer, x + dx, y + dy)                    
+            
+        seqend(fp, layer)
+    
+    else: print('There is NO layer ----', layer, '----')
+
     i += 1
 
   cfg.data.clear()
@@ -152,7 +155,7 @@ def circle(layer, x, y, radius, n):
 
   return x, y
 
-def crect(layer, x1, y1, x2, y2):
+def rects(layer, x1, y1, x2, y2):
 
   data = [layer]
 
@@ -164,6 +167,22 @@ def crect(layer, x1, y1, x2, y2):
   cfg.data.append(data)
 
   return x2, y2
+
+def crect(layer, x, y, length, width):
+
+  l = length * 0.5
+  w = width * 0.5
+
+  data = [layer]
+
+  data.append([x - l, y - w])
+  data.append([x + l, y - w])
+  data.append([x + l, y + w])
+  data.append([x - l, y + w])
+
+  cfg.data.append(data)
+
+  return x + length, y
 
 def srect(layer, x, y, length, width):
 
@@ -207,9 +226,9 @@ def tline(layer, x, y, length):
 
   return x, y + length
 
-def tilts(layer, x, y, length, wg, angle):
+def tilts(layer, x, y, length, width, angle):
 
-  w = wg * 0.5
+  w = width * 0.5
 
   xp = np.array([0, length, length, 0])
   yp = np.array([w, w, -w, -w])

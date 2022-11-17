@@ -4,19 +4,6 @@ import dxf
 import tip
 import numpy as np
 
-def texts(x, y, title, scale, align):
-
-  if align[0] == 'l': x = x + 10
-  if align[0] == 'r': x = x - 10
-
-  l, w = dxf.texts('core', x, y, title, scale, align)
-
-  if align[0] == 'l': xalign = x - 10
-  if align[0] == 'c': xalign = x - l * 0.5 - 10
-  if align[0] == 'r': xalign = x - l - 10
-
-  # dxf.srect('edge', xalign, y, l + 20, w + 20)
-
 def arange(start, stop, step):
 
   return np.arange(start, stop + step * 0.5, step)
@@ -52,6 +39,6 @@ def saveas(filename):
 
 if __name__ == '__main__':
 
-  texts(0, 0, 'test', 1, 'lb')
+  dxf.texts(0, 0, 'test', 1, 'lb')
 
   saveas('text')
