@@ -79,7 +79,6 @@ def chips(x, y):
     if layer == 'active': dxf.crect(layer, x, y + 200, 40, 2)
     if layer == 'metal':
       dxf.crect(layer, x, y + 250, 100, 1)
-  if size > 0: dxf.texts(layer, x + 200, y, label, size, 'lc')
 
 
 if __name__ == '__main__':
