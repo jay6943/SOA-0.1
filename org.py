@@ -6,32 +6,6 @@ import key
 xsize = 1990
 ysize = 490
 
-def edge(x, y):
-
-  x1, y1 = x, y
-  x2, y2 = x + xsize, y + ysize
-
-  w = 10
-
-  dxf.rects('Metal', x1, y1, x1 + w, y1 + w)
-  dxf.rects('Metal', x1, y2, x1 + w, y2 - w)
-  dxf.rects('Metal', x2, y1, x2 - w, y1 + w)
-  dxf.rects('Metal', x2, y2, x2 - w, y2 - w)
-
-  dx, l = 110, 150
-  dy, w = 35, 75
-
-  dxf.rects('Metal', x1 + dx, y1 + dy, x1 + l, y1 + w)
-  dxf.rects('Metal', x2 - dx, y2 - dy, x2 - l, y2 - w)
-
-  dx, l = 145, 70
-  dy, w = 70, 14
-
-  dxf.crect('Metal', x1 + dx, y2 - dy, l, w)
-  dxf.crect('Metal', x1 + dx, y2 - dy, w, l)
-  dxf.crect('Metal', x2 - dx, y1 + dy, l, w)
-  dxf.crect('Metal', x2 - dx, y1 + dy, w, l)
-
 def device(x, y, length):
 
   wg = 1
@@ -70,7 +44,7 @@ if __name__ == '__main__':
 
   device(3453.7, 3371.5, 1000)
 
-  edge(3505, 3255)
+  dev.edge('Metal', 3505, 3255, xsize, ysize)
 
   key.chips(3650, 1850)
 
