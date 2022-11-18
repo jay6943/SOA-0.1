@@ -39,19 +39,20 @@ def under(layer, x, y):
     dxf.srect(layer, x2, y2, w, l)
     dxf.srect(layer, x2, y2 + 50, w, l)
 
-def cross(layer, x, y, label, size):
+def cross(layer, x, y):
 
   l = 300
   w = 50
 
   dxf.crect(layer, x, y, l, w)
   dxf.crect(layer, x, y, w, l)
-
-  if size > 0: dxf.texts(layer, x + 200, y, label, size, 'lc')
+  dxf.crect(layer, x, y + 250, 100, 1)
 
 def device(layer, x, y, n, label):
 
-  cross(layer, x, y, label, 2)
+  cross(layer, x, y)
+
+  if layer == 'Metal': dxf.texts(layer, x + 200, y, label, 2, 'lc')
 
   upper(layer, x - 1785 + (n - 1) * 170, y)
   under(layer, x - 1785 + (n - 0) * 170, y)
@@ -76,10 +77,7 @@ def chips(x, y):
     
     chip(layer, x, y, i, layer)
     
-    if layer == 'active': dxf.crect(layer, x, y + 200, 40, 2)
-    if layer == 'metal':
-      dxf.crect(layer, x, y + 250, 100, 1)
-
+  dxf.crect('Active', x, y + 200, 40, 2)
 
 if __name__ == '__main__':
 

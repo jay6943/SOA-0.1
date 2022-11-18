@@ -1,7 +1,5 @@
 import os
-import cfg
 import dxf
-import tip
 import numpy as np
 
 def arange(start, stop, step):
@@ -11,8 +9,6 @@ def arange(start, stop, step):
 def move(idev, x, xp, length):
 
   ltip = (length - xp + x) * 0.5
-
-  if ltip < tip.ltip: ltip = tip.ltip
 
   xtip, _ = dxf.move(idev, x, 0, xp, 0, ltip, 0, 0)
 
