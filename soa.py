@@ -2,16 +2,54 @@ import cfg
 import dxf
 import dev
 import key
+import numpy as np
 
-xsize = 1990
-ysize = 490
+xsize = 2000
+ysize = 600
+
+def device(x, y, length, width):
+
+  wg, ltip, ltaper, lexpand = 1, 10, 200, 50
+
+  angle = np.cos(cfg.tilt * np.pi / 180)
+  xtilt = (length + 40) / angle
+  ytilt = xtilt * np.tan(cfg.tilt * np.pi / 180)
+  lchip = xtilt - (ltip + ltaper + lexpand) * 2
+
+  idev = len(cfg.data)
+
+  x1, y1 = x - 20 / angle, y - (ytilt - ysize) * 0.5
+  x2, y2 = dxf.srect('Active', x1, y1, ltip, cfg.wt)
+  x3, y3 = dxf.taper('Active', x2, y2, ltaper, cfg.wt, wg)
+  x4, y4 = dxf.taper('Active', x3, y3, lexpand, wg, width)
+  x5, y5 = dxf.srect('Active', x4, y4, lchip, width)
+  x6, y6 = dxf.taper('Active', x5, y5, lexpand, width, wg)
+  x7, y7 = dxf.taper('Active', x6, y6, ltaper, wg, cfg.wt)
+  x8, y8 = dxf.srect('Active', x7, y7, ltip, cfg.wt)
+  
+  dxf.srect('P-open', x1 + 5, y1, x8 - x1 - 10, 6)
+  dxf.srect('InGaAs', x1, y1, x8 - x1, 10)
+  dxf.srect('Metal', x4, y4, lchip, 100)
+
+  l, w = 180, 90
+
+  for yt in [115, -115]:
+    for xt in [0, l + 20]:
+      dxf.srect('Metal', x4 + xt, y4 + yt, l, w)
+      dxf.srect('Metal', x5 - xt - l, y4 + yt, l, w)
+
+  dxf.move(idev, x1, y1, x8, y8, 0, 0, cfg.tilt)
+
+  edge(x, y)
+
+  return x + xsize, y + ysize
 
 def edge(x, y):
 
-  x1, y1 = x, y
-  x2, y2 = x + xsize, y + ysize
+  w, g = 10, 5
 
-  w = 10
+  x1, y1 = x + g, y + g
+  x2, y2 = x - g + xsize, y - g + ysize
 
   dxf.rects('Metal', x1, y1, x1 + w, y1 + w)
   dxf.rects('Metal', x1, y2, x1 + w, y2 - w)
@@ -32,46 +70,22 @@ def edge(x, y):
   dxf.crect('Metal', x2 - dx, y1 + dy, l, w)
   dxf.crect('Metal', x2 - dx, y1 + dy, w, l)
 
-def device(x, y, length):
+def chip(x, y, length, width):
 
-  wg = 1
-  l1 = 300
-  l2 = 200
-  l3 = 50
+  for i in range(13):
+    x1, y1 = x, y + i * ysize
+    x2, y2 = device(x1, y1, length, width)
 
-  idev = len(cfg.data)
+    s = 'soa-' + str(length) + '-' + str(width) + '-' + str(i+1)
+    dxf.texts('Metal', x1 + length * 0.5, y1 + 20, s, 0.5, 'cb')
 
-  x1, y1 = dxf.srect('Active', x, y, l1, cfg.wt)
-  x2, y2 = dxf.taper('Active', x1, y1, l2, cfg.wt, wg)
-  x3, y3 = dxf.taper('Active', x2, y2, l3, wg, cfg.wg)
-  x4, y4 = dxf.sline('Active', x3, y3, length)
-  x5, y5 = dxf.taper('Active', x4, y4, l3, cfg.wg, wg)
-  x6, y6 = dxf.taper('Active', x5, y5, l2, wg, cfg.wt)
-  x7, y7 = dxf.srect('Active', x6, y6, l1, cfg.wt)
-  
-  dxf.srect('P-open', x + 5, y, x7 - x - 10, 6)
-  dxf.srect('InGaAs', x, y, x7 - x, 10)
+  return x2, y2
 
-  l = 180
-  w = 90
-
-  dxf.srect('Metal', x3, y3, length, 100)
-
-  for yt in [115, -115]:
-    for xt in [0, l + 20]:
-      dxf.srect('Metal', x3 + xt, y3 + yt, l, w)
-      dxf.srect('Metal', x4 - xt - l, y3 + yt, l, w)
-
-  dxf.move(idev, x, y, x7, y7, 0, 0, 7)
-
-  dxf.texts('Metal', (x + x7) * 0.5, y, 'soa', 0.5, 'cc')
-  
 if __name__ == '__main__':
 
-  device(3453.7, 3371.5, 1000)
-
-  edge(3505, 3255)
+  chip(3500, 3000, xsize, cfg.wg)
 
   key.chips(3650, 1850)
+  key.chips(3650, 1850 + 9800)
 
   dev.saveas('soa')
