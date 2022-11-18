@@ -18,6 +18,6 @@ area = [[1, 0], [-1, 0], [0, 0], [-1, -1], [0, -1]]
 
 layer = {} # 2 for (0, 0) mask position
 layer['Active'] = 2
-layer['Metal'] = 2
-layer['P-open'] = 2
 layer['InGaAs'] = 2
+layer['P-open'] = 2
+layer['Metal'] = 2

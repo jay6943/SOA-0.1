@@ -8,9 +8,9 @@ ysize = 600
 
 def device(x, y, length, width):
 
-  wg, ltip, ltaper, lexpand = 1, 100, 200, 50
+  wg, ltip, ltaper, lexpand = 1, 40, 200, 50
 
-  lchip = length + ltip - (ltip + ltaper + lexpand) * 2
+  lchip = length - ltip - (ltaper + lexpand) * 2
 
   x1, y1 = x - ltip * 0.5, y + ysize * 0.5
   x2, y2 = dxf.srect('Active', x1, y1, ltip, cfg.wt)
@@ -46,7 +46,7 @@ def chip(x, y, length, width):
     x1, y1 = x, y + i * ysize
     x2, y2 = device(x1, y1, length, width)
 
-    s = 'soa-' + str(length) + '-' + str(width) + '-' + str(i+1)
+    s = 'amp-' + str(length) + '-' + str(width) + '-' + str(i+1)
     dxf.texts('Metal', x1 + length * 0.5, y1 + 20, s, 0.5, 'cb')
 
   return x2, y2
