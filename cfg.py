@@ -21,3 +21,4 @@ layer['Active'] = 2
 layer['InGaAs'] = 2
 layer['P-open'] = 2
 layer['Metal'] = 2
+layer['Wafer'] = 2

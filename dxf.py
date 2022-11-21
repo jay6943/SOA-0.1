@@ -143,15 +143,15 @@ def xreverse(idev, x, y, xp):
 
   return x + xp, y
 
-def circle(layer, x, y, radius, n):
+def circle(layer, x, y, radius, start, stop, n):
 
-  t = np.linspace(0, np.pi * 2, n)
+  t = np.linspace(start, stop, n) * np.pi / 180
 
   xp = x + radius * np.cos(t)
   yp = y + radius * np.sin(t)
 
   data = np.array([xp, yp]).transpose()
-  cfg.data.append([layer] + data.tolist())
+  cfg.data.append([layer] + data.tolist() + [[x, y]])
 
   return x, y
 
