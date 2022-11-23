@@ -1,4 +1,5 @@
 import os
+import cfg
 import dxf
 import numpy as np
 
@@ -14,19 +15,25 @@ def edge(layer, x, y, length, width):
   dxf.rects(layer, x2, y1, x2 - w, y1 + w)
   dxf.rects(layer, x2, y2, x2 - w, y2 - w)
 
-  dx, dy, w = 50, 50, 40
+def metal(layer, x, y, length, width):
+  
+  g, l, w = 5, 100, 10
 
-  dxf.crect(layer, x1 + dx, y1 + dy, w, w)
-  dxf.crect(layer, x2 - dx, y2 - dy, w, w)
+  data = [layer]
 
-  dx, l = 50, 70
-  dy, w = 50, 14
+  data.append([x + g, y + w * 0.5])
+  data.append([x + g + l * 0.5, y + width * 0.5])
+  data.append([x + length - g - l * 0.5, y + width * 0.5])
+  data.append([x + length - g, y + w * 0.5])
+  data.append([x + length - g, y - w * 0.5])
+  data.append([x + length - g - l * 0.5, y - width * 0.5])
+  data.append([x + g + l * 0.5, y - width * 0.5])
+  data.append([x + g, y - w * 0.5])
 
-  dxf.crect(layer, x1 + dx, y2 - dy, l, w)
-  dxf.crect(layer, x1 + dx, y2 - dy, w, l)
-  dxf.crect(layer, x2 - dx, y1 + dy, l, w)
-  dxf.crect(layer, x2 - dx, y1 + dy, w, l)
+  cfg.data.append(data)
 
+  return x + length, y
+  
 def arange(start, stop, step):
 
   return np.arange(start, stop + step * 0.5, step)

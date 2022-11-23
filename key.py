@@ -59,7 +59,10 @@ def device(layer, x, y, n, label):
 
 def chip(layer, x, y, n, label):
 
-  for i in range(7): device(layer, x + i * 3000, y, n, str(i + 1))
+  for i in range(7):
+    xi = x + i * 3000
+    device(layer, xi, y, n, str(i + 1))
+    dxf.srect('PNP-block', xi - 1980, y, 450, 300)
 
   xt, yt = 28000, 12000
 

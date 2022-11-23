@@ -1,4 +1,3 @@
-import cfg
 import dxf
 import dev
 import soa
@@ -8,12 +7,18 @@ import key
 
 if __name__ == '__main__':
 
-  x1, y1 = 3500, 3000
+  x1, y1 = 3700, 3000
   x2, y2 = x1, 12745
 
-  for _ in range(3): x1, _ = soa.chip(x1, y1, 1000, cfg.wg)
-  x3, _ = amp.chip(x2, y2, 1000, cfg.wg)
-  x4, _ = lds.chip(x3, y2, 400, cfg.wg)
+  # x2, _ = lds.chips(x1, y1)
+  # for _ in range(3): x2, _ = soa.chips(x2, y1)
+  # x2, _ = lds.chips(x2, y1)
+
+  # x2, _ = lds.chips(x1, y2)
+  # x2, _ = amp.chips(x2, y2)
+  # x2, _ = soa.chips(x2, y2)
+  # x2, _ = amp.chips(x2, y2)
+  # x2, _ = lds.chips(x2, y2)
 
   key.chips(3650, 1850)
   key.chips(3650, 1850 + 9800)
