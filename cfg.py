@@ -14,12 +14,12 @@ wtpr = 2
 
 size = 10000
 mask = 10900
-area = [[1, 0], [-1, 0], [0, 0], [-1, -1], [0, -1]]
 
 layer = {} # 2 for (0, 0) mask position
-layer['Active'] = 2
-layer['PNP-block'] = 2
-layer['InGaAs'] = 2
-layer['P-open'] = 2
-layer['Metal'] = 2
-layer['Wafer'] = 2
+layer['active'] = 1
+layer['pnp-block'] = 0
+layer['ingaas'] = 2
+layer['p-open'] = 3
+layer['metal'] = 4
+layer['plate'] = 5
+layer['wafer'] = 0
