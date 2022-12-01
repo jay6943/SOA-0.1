@@ -65,25 +65,6 @@ def conversion(fp):
 
   cfg.data.clear()
 
-def copier(fp, layer, area):
-
-  i = 0
-
-  for device in cfg.data:
-
-    if layer == device[0]:
-
-      dx = cfg.area[area][0] * cfg.mask
-      dy = cfg.area[area][1] * cfg.mask
-
-      polyline(fp, layer)
-      
-      for [x, y] in device[1:]: vertex(fp, layer, x + dx, y + dy)                    
-          
-      seqend(fp, layer)
-  
-    i += 1
-
 def rxt(angle):
   
   arg = angle * np.pi / 180
@@ -120,17 +101,6 @@ def move(idev, x, y, xp, yp, dx, dy, angle):
     data[1:] = xy.tolist()
   
   return t[0][0] + px, t[1][0] + py
-
-def xreverse(idev, x, y, xp):
-  
-  for data in cfg.data[idev:len(cfg.data)]:
-    xy = np.array(data[1:]) - [x, 0]
-    xy = xy * [-1, 1]
-    xy = xy + [xp, 0]
-
-    data[1:] = xy.tolist()
-
-  return x + xp, y
 
 def circle(layer, x, y, radius, start, stop, n):
 

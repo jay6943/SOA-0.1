@@ -74,23 +74,32 @@ def chip(x, y):
 
   for layer in cfg.layer:
     device(layer, x, y, dx)
-    if layer != 'wafer': label(layer)
+    if layer != 'wafer' and layer != 'block': label(layer)
   
   xt = x - dx + 170 * (len(cfg.layer) + 1)
 
   under('active', xt, y)
+  under('active-0.6', xt, y)
+  under('active-1.0', xt, y)
   upper('pnp-block', xt, y)
   dxf.srect('pnp-block', x - dx, y, 1200, 300)
 
 def chips(x, y):
 
-  for i in range(7):
-    xt = x + i * 3000
-    chip(xt, y)
-    dxf.texts('metal', xt + 200, y, str(i+1), 2, 'lc')
+  for y1 in [1850, 1850 + 9800]:
+    for i in range(7):
+      x1 = x + i * 3000 + 4450
+      chip(x1, y1)
+      dxf.texts('metal', x1 + 200, y1, str(i+1), 2, 'lc')
+  
+  for layer in cfg.layer:
+    if layer != 'wafer' and layer != 'block':
+      dxf.rects(layer, x, y, 300, 30000)
+      dxf.rects(layer, x, y, 30000, 300)
+      dxf.rects(layer, x, 29700, 30000, 30000)
 
 if __name__ == '__main__':
 
-  chips(3650, 1850)
+  chips(0, 0)
 
   dev.saveas('soa')

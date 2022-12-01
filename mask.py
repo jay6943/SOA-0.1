@@ -1,3 +1,4 @@
+import cfg
 import dxf
 import dev
 import soa
@@ -10,20 +11,22 @@ if __name__ == '__main__':
   x1, y1 = 3700, 3000
   x2, y2 = x1, 12745
 
-  x2, _ = lds.chips(x1, y1)
-  for _ in range(3): x2, _ = soa.chips(x2, y1)
-  x2, _ = lds.chips(x2, y1)
+  for layer in ['active','active-0.6','active-1.0']:
+    x2, _ = lds.chips(layer, x1, y1)
+    for _ in range(3): x2, _ = soa.chips(layer, x2, y1)
+    x2, _ = lds.chips(layer, x2, y1)
 
-  x2, _ = lds.chips(x1, y2)
-  x2, _ = soa.chips(x2, y2)
-  x2, _ = amp.chips(x2, y2)
-  x2, _ = soa.chips(x2, y2)
-  x2, _ = lds.chips(x2, y2)
+    x2, _ = lds.chips(layer, x1, y2)
+    x2, _ = soa.chips(layer, x2, y2)
+    x2, _ = amp.chips(layer, x2, y2)
+    x2, _ = soa.chips(layer, x2, y2)
+    x2, _ = lds.chips(layer, x2, y2)
 
-  key.chips(4450, 1850)
-  key.chips(4450, 1850 + 9800)
+  dxf.rects('block', 1000, 1000, 30000, 22000)
 
-  dxf.circle('wafer', 0, 0, 25400, 0, 90, 91)
-  dxf.circle('wafer', 25400, 0, 25400, 90, 180, 91)
+  key.chips(0, 0)
+
+  dxf.circle('wafer', 0, 0, cfg.size, 0, 90, 91)
+  dxf.circle('wafer', cfg.size, 0, cfg.size, 90, 180, 91)
 
   dev.saveas('SOA V0.1')
