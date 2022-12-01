@@ -1,5 +1,5 @@
-work = '../mask/SOA-V0.1/'
-libs = '../mask/SOA-V0.1/lib/'
+work = '../mask/SOA-0.1/'
+libs = '../mask/SOA-0.1/lib/'
 
 data = []
 
